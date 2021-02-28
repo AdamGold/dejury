@@ -22,8 +22,9 @@ Contract design
 """
 import currency
 
-posts = Hash()
+posts = Hash(default_value=Hash())
 answers = Hash()
+balances = ForeignHash(foreign_contract="currency", foreign_name="balances")
 
 
 @export
@@ -32,8 +33,10 @@ def post(title: str, content: str, bounty: int):
 
     assert not posts[sender, title], "There is already an existing post with this title"
     assert content, "A question must not be empty."
+    assert (
+        balances[sender] > bounty
+    ), "You must have enough coins in order to create this post."
 
-    posts[sender, title] = sender
     posts[sender, title]["content"] = content
     posts[sender, title]["bounty"] = bounty
     posts[sender, title]["bounty_given"] = False
