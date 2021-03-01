@@ -23,24 +23,20 @@ Contract design
 import currency
 
 posts = Hash(default_value="")
-answers = Hash()
+answers = Hash(default_value="")
 balances = ForeignHash(foreign_contract="currency", foreign_name="balances")
 
 
 @export
 def post(title: str, content: str, bounty: int):
     sender = ctx.caller
-
     assert not posts[sender, title], "There is already an existing post with this title"
     assert content, "A question must not be empty."
-    assert (
-        balances[sender] > bounty
-    ), "You must have enough coins in order to create this post."
+    assert bounty > 0, "Bounty must be bigger than zero."
 
     transfer(from_=sender, to=ctx.this, amount=bounty)
     posts[sender, title, "content"] = content
     posts[sender, title, "bounty"] = bounty
-    posts[sender, title, "bounty_given"] = False
 
 
 @export
@@ -48,22 +44,26 @@ def answer(title: str, content: str, owner: str):
     sender = ctx.caller
 
     assert content, "An answer must not be empty."
+    assert posts[
+        owner, title, "bounty"
+    ], "This question does not exist or already answered."
     assert not answers[
-        title, sender
+        sender, title
     ], "You have already posted an answer for this question."
-    assert posts[owner, title], "This question does not exist."
-    answers[title, sender] = content
+    answers[sender, title] = content
 
 
 @export
 def award(title: str, winner: str):
-    post = posts[ctx.caller, title]
-    answer = answers[title, winner]
-    assert post, "Post not found."
-    assert not post["bounty_given"], "Bounty has already been given for this post."
+    answer = answers[winner, title]
+    assert posts[ctx.caller, title, "content"], "Post not found."
+    assert posts[
+        ctx.caller, title, "bounty"
+    ], "Bounty has already been given for this post."
     assert answer, "This answer does not exist."
-    transfer(from_=ctx.this, to=winner, amount=post["bounty"])
-    post["bounty_given"] = True
+    assert winner != ctx.caller, "You can not award yourself."
+    transfer(from_=ctx.this, to=winner, amount=posts[ctx.caller, title, "bounty"])
+    posts[ctx.caller, title, "bounty"] = 0
 
 
 def transfer(from_: str, to: str, amount: int):
