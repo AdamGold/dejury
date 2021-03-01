@@ -8,9 +8,9 @@ with open("./tests/currency.py") as currency, open(
     f"./contracts/{CONTRACT_NAME}.py"
 ) as contract:
     code = currency.read()
-    client.submit(code, name="currency")
+    client.submit(code, name=f"currency2_{CONTRACT_NAME}")
     code = contract.read()
-    client.submit(code, name=CONTRACT_NAME)
+    client.submit(code, name=f"test2{CONTRACT_NAME}")
 
 
 class TestContract(unittest.TestCase):
@@ -26,10 +26,12 @@ class TestContract(unittest.TestCase):
         self.get_contracts("me")
         self.assertRaises(
             AssertionError,
-            lambda: self.main_contract.post("test", "test test", 300),
+            lambda: self.main_contract.post(
+                title="test", content="test test", bounty=300
+            ),
         )
-        self.currency.quick_write("balances", "me", 10000)
-        self.main_contract.post("test", "test test", 300)
+        self.currency_contract.quick_write("balances", "me", 10000)
+        self.main_contract.post(title="test", content="test test", bounty=300)
         self.assertEqual(
             self.main_contract.quick_read("posts", "me", ["test"]),
             {"content": "test test", "bounty": 300, "bounty_given": False},

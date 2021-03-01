@@ -22,7 +22,7 @@ Contract design
 """
 import currency
 
-posts = Hash(default_value=Hash())
+posts = Hash(default_value="")
 answers = Hash()
 balances = ForeignHash(foreign_contract="currency", foreign_name="balances")
 
@@ -37,10 +37,10 @@ def post(title: str, content: str, bounty: int):
         balances[sender] > bounty
     ), "You must have enough coins in order to create this post."
 
-    posts[sender, title]["content"] = content
-    posts[sender, title]["bounty"] = bounty
-    posts[sender, title]["bounty_given"] = False
     transfer(from_=sender, to=ctx.this, amount=bounty)
+    posts[sender, title, "content"] = content
+    posts[sender, title, "bounty"] = bounty
+    posts[sender, title, "bounty_given"] = False
 
 
 @export
