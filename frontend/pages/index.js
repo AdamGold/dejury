@@ -13,7 +13,7 @@ export default function Home({ data }) {
       <section>
         <p align="center">Think StackOverflow, but on the blockchain. And with real bounties.</p>
       </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.margin100px}`}>
+      <section className={`${utilStyles.headingMd} ${utilStyles.margin60px}`}>
         In order to answer a question and receive its bounty, you would have to know its URL.
         In the meantime, you can <Link href="/questions/new"><a>post</a></Link> a new question.
       </section>

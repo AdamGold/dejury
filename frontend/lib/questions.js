@@ -16,17 +16,9 @@ export const postQuestion = async (kwargs, wallet) => {
     await new Promise(r => setTimeout(r, 2000)); // wait for approval
 
     detail = JSON.stringify({
-        //Which Lamden Network to send this to
-        //mainnet, testnet are the only acceptable values
         networkType: NETWORK,
-
-        //The method in your contract to call
         methodName: 'post',
-
-        //The argument values for your method
         kwargs,
-        //The maximum amount of stamps this transaction is allowed to use
-        //Could you less but won't be allowed to use more
         stampLimit: 100
     });
 
@@ -42,15 +34,27 @@ export const getQuestion = async (owner, title) => {
     return { content, bounty, email }
 }
 
-export const answerQuestion = async event => {
+export const answerQuestion = async (owner, title, content) => {
     // post to blockchain & email the owner with the answer & award link
-    event.preventDefault()
-    // const res = await api.getVariable(config.devContract, 'questions')
-    // return res
+    var detail = JSON.stringify({
+        networkType: NETWORK,
+        methodName: 'answer',
+        kwargs: { owner, title, content },
+        stampLimit: 60
+    });
+
+    //Send transaction to the wallet
+    document.dispatchEvent(new CustomEvent('lamdenWalletSendTx', { detail }));
 }
 
-export const award = async event => {
-    event.preventDefault()
-    // const res = await api.getVariable(config.devContract, 'questions')
-    // return res
+export const awardAnswer = async (title, winner) => {
+    var detail = JSON.stringify({
+        networkType: NETWORK,
+        methodName: 'award',
+        kwargs: { title, winner },
+        stampLimit: 40
+    });
+
+    //Send transaction to the wallet
+    document.dispatchEvent(new CustomEvent('lamdenWalletSendTx', { detail }));
 }

@@ -3,6 +3,8 @@ import Image from 'next/image'
 import styles from '../styles/layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from "@fortawesome/free-brands-svg-icons"
 
 const name = 'Dejury'
 export const siteTitle = 'Dejury - Get paid for answering questions'
@@ -26,19 +28,24 @@ export default function Layout({ children, home }) {
                 <meta name="twitter:card" content="summary_large_image" />
             </Head>
             <header className={styles.header}>
-                {home ? (
-                    <>
-                        <h1 className={utilStyles.heading2Xl}>{name}</h1>
-                    </>
-                ) : (
+                <div className={styles.logoLeft}>
+                    {home ? (
                         <>
-                            <h2 className={utilStyles.headingLg}>
+                            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+                        </>
+                    ) : (
+                        <>
+                            <h2 className={utilStyles.heading2Xl}>
                                 <Link href="/">
                                     <a className={utilStyles.colorInherit}>{name}</a>
                                 </Link>
                             </h2>
                         </>
                     )}
+                </div>
+                <div className={styles.logoRight}>
+                    <a href="https://github.com/adamGold/dejury"><FontAwesomeIcon icon={faGithub} className={styles.github} /></a>
+                </div>
             </header>
             <main>{children}</main>
             {!home && (

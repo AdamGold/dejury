@@ -1,0 +1,55 @@
+.questionLabel {
+  font-size: 12px;
+  color: #34add9;
+  font-weight: bold;
+}
+
+.questionHeader {
+    padding-bottom: 0
+}
+
+.questionTitleArea {
+    float: left;
+}
+.questionTitle {
+    font-size: 48px;
+    margin-top: -12px;
+    padding-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0
+}
+
+.bountyArea {
+    float: right;
+    margin-top: 24px;
+}
+
+.bounty {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    background: #34add9;
+    font-size: 24px;
+    float: left;
+    margin-right: 10px
+}
+
+.tauBounty {
+    float: right;
+    margin-top: 6px;
+}
+
+
+.questionContent {
+    margin-top: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ddd;
+}
+
+.answerDesc {
+    color: #adadad;
+    font-size: 14px;
+}

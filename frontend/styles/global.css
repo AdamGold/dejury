@@ -124,7 +124,7 @@ fieldset {
 }
 .form-group .bar {
   position: relative;
-  border-bottom: 0.0625rem solid #999;
+  border-bottom: 0.0625rem solid #ddd;
   display: block;
 }
 .form-group .bar::before {

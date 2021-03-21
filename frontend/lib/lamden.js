@@ -1,7 +1,10 @@
 import Lamden from "lamden-js"
 
-export const CONTRACT_NAME = "con_dejury_testing4"
-export const NETWORK = "testnet"
+const DEV_CONTRACT_NAME = "con_dejury_testing4"
+// const PROD_CONTRACT_NAME = "con_dejury"
+// export const CONTRACT_NAME = DEV_CONTRACT_NAME
+export const CONTRACT_NAME = process.env.CONTRACT_NAME || DEV_CONTRACT_NAME
+export const NETWORK = process.env.NETWORK || "testnet"
 export const connectionRequest = {
     appName: 'Dejury', // Your DAPPS's name
     version: '1.1.0', // any version to start, increment later versions to update connection info
@@ -11,4 +14,5 @@ export const connectionRequest = {
 }
 const TEST_NETWORK_URL = "https://testnet-master-1.lamden.io"
 const PROD_NETWORK_URL = "https://masternode-01.lamden.io"
-export const API = new Lamden.Masternode_API({ hosts: [TEST_NETWORK_URL] })
+export const NETWORK_URL = process.env.NETWORK_URL || TEST_NETWORK_URL
+export const API = new Lamden.Masternode_API({ hosts: [NETWORK_URL] })

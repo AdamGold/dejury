@@ -6,10 +6,28 @@
 
 .header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .backToHome {
   margin: 3rem 0 0;
 }
+
+.logoRight {
+  align-self: flex-end;
+}
+
+.logoLeft {
+  align-self: flex-start;
+}
+
+.github {
+  width: 24px;
+  color: #ddd;
+}
+
+.github:hover {
+  color: #34add9;
+}
+

@@ -31,14 +31,19 @@ class CustomApp extends App {
     }
 
     lamdenWalletStatus = (response) => {
-        console.log(response)
-        if (response.resultInfo && response.resultInfo.type === 'error') {
-            console.log(response.resultInfo.errors)
-            //Handle Errors
-        } else {
-            var txInfo = response.detail.data.txInfo
+        var data = response.detail.data
+        console.log(data)
+        if (data.resultInfo && data.resultInfo.type === 'error') {
+            console.log(data.resultInfo.errorInfo)
+            alert("An error has occured, please try again.")
+        } else if (!data.resultInfo.title.includes("Pending")) {
+            var txInfo = data.txInfo
             if (txInfo.methodName === "post") {
                 this.props.router.push(`/questions/${txInfo['senderVk']}?title=${txInfo["kwargs"]["title"]}`)
+            } else if (txInfo.methodName === "answer") {
+                alert("Your answer has been submitted. The owner will be notified via email and will have the ability to award you with the bounty.")
+            } else if (txInfo.methodName === "award") {
+                alert("Bounty awarded!")
             }
         }
     }
