@@ -28,7 +28,7 @@ const mailer = ({ content, to }) => {
         from: "Dejury <noreply@dejury.vercel.app>",
         to: to.trim(),
         subject: `New answer for your Dejury question`,
-        content,
+        html: content,
     }
 
     return new Promise((resolve, reject) => {
