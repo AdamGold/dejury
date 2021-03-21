@@ -11,7 +11,7 @@ export default function Home({ data }) {
         <title>{siteTitle}</title>
       </Head>
       <section>
-        <p align="center">Think StackOverflow, but on the blockchain. And with real bounties.</p>
+        <p>Think StackOverflow, but on the blockchain. And with real bounties.</p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.margin60px}`}>
         In order to answer a question and receive its bounty, you would have to know its URL.
