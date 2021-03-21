@@ -25,7 +25,7 @@ export default async (req, res) => {
 
 const mailer = ({ content, to }) => {
     const message = {
-        from: "Dejury <ronalister@gmail.com>",
+        from: "Dejury <noreply@dejury.vercel.app>",
         to: to.trim(),
         subject: `New answer for your Dejury question`,
         content,
