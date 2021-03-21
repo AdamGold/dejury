@@ -35,7 +35,9 @@ class TestContract(unittest.TestCase):
     def post(self):
         self.currency_contract.quick_write("balances", "me", 10000)
         self.currency_contract.approve(amount=1000, to=self.main_contract.name)
-        self.main_contract.post(title="test", content="test test", bounty=500)
+        self.main_contract.post(
+            title="test", content="test test", bounty=500, email="test"
+        )
 
     def award(self):
         self.change_signer("me")

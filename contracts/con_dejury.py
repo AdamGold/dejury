@@ -28,15 +28,16 @@ balances = ForeignHash(foreign_contract="currency", foreign_name="balances")
 
 
 @export
-def post(title: str, content: str, bounty: int):
+def post(title: str, content: str, bounty: int, email: str):
     sender = ctx.caller
     assert not posts[sender, title], "There is already an existing post with this title"
     assert content, "A question must not be empty."
+    assert email, "The email must not be empty."
     assert bounty > 0, "Bounty must be bigger than zero."
-
     transfer(from_=sender, to=ctx.this, amount=bounty)
     posts[sender, title, "content"] = content
     posts[sender, title, "bounty"] = bounty
+    posts[sender, title, "email"] = email
 
 
 @export
