@@ -7,7 +7,7 @@ export const CONTRACT_NAME = process.env.NEXT_PUBLIC_CONTRACT_NAME || DEV_CONTRA
 export const NETWORK = process.env.NEXT_PUBLIC_NETWORK || "testnet"
 export const connectionRequest = {
     appName: 'Dejury', // Your DAPPS's name
-    version: '1.1.0', // any version to start, increment later versions to update connection info
+    version: process.env.NEXT_PUBLIC_VERSION, // any version to start, increment later versions to update connection info
     contractName: CONTRACT_NAME, // Will never change
     networkType: NETWORK, // other option is 'mainnet'
     logo: 'images/logo.png', // or whatever the location of your logo
