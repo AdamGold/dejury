@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 export default async (req, res) => {
     const { content, to } = req.body
-    console.log(content, to)
+    console.log(to, content)
 
     // Check if fields are all filled
     if (content === "" || to === "") {
@@ -26,7 +26,7 @@ export default async (req, res) => {
 const mailer = ({ content, to }) => {
     const message = {
         from: "Dejury <ronalister@gmail.com>",
-        to,
+        to: to.trim(),
         subject: `New answer for your Dejury question`,
         content,
     }

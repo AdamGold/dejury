@@ -21,9 +21,9 @@ export default function Question(props) {
 
     const sendMail = async (owner, title, content, sender, to) => {
         content = `
-        <h1>A new answer has been received for your question!</h1>
-        <p>${content}</p>
-        To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&title=${title}">click here.</a>
+<h1>A new answer has been received for your question!</h1>
+<p>${content}</p>
+To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&title=${title}">click here.</a>
         `
         try {
             const res = await fetch("/api/email", {
