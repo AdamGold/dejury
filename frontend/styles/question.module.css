@@ -6,12 +6,17 @@
 
 .questionHeader {
     padding-bottom: 0;
-    margin-top:48px;
+    margin-top: 48px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .questionTitleArea {
-    float: left;
+    align-self: flex-start;
 }
+
 .questionTitle {
     font-size: 48px;
     margin-top: -12px;
@@ -21,8 +26,15 @@
 }
 
 .bountyArea {
-    float: right;
-    margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-self: flex-end;
+    flex-basis: 100px;
+    max-width: 100px;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 0;
 }
 
 .bounty {
@@ -35,12 +47,12 @@
     background: #34add9;
     font-size: 24px;
     float: left;
-    margin-right: 10px
+    font-weight: bold;
 }
 
 .tauBounty {
-    float: right;
-    margin-top: 6px;
+    align-self: center;
+    align-items: center;
 }
 
 

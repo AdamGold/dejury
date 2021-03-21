@@ -1,9 +1,12 @@
+import Head from 'next/head'
 import Layout from '../../components/layout'
 import { answerQuestion, getQuestion, awardAnswer } from "../../lib/questions"
 import { useRouter } from 'next/router'
 import React, { useState } from "react"
 import { BASE_PATH } from "../../lib/consts"
 import styles from '../../styles/question.module.css'
+import sanitizeHtml from 'sanitize-html';
+import { NextSeo } from 'next-seo';
 
 export async function getServerSideProps(context) {
     // const data = getPostData(params.id)
@@ -22,7 +25,7 @@ export default function Question(props) {
     const sendMail = async (owner, title, content, sender, to) => {
         content = `
 <h1>A new answer has been received for your question!</h1>
-<p>${content}</p>
+<p>${sanitizeHtml(content)}</p>
 To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&title=${title}">click here.</a>
         `
         try {
@@ -52,19 +55,22 @@ To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&t
 
     return (
         <Layout>
+            <NextSeo
+                title={`Dejury - ${sanitizeHtml(title)}`}
+                description={sanitizeHtml(content)}
+            />
             <section className={styles.questionHeader}>
                 <div className={styles.questionTitleArea}>
                     <label className={styles.questionLabel}>Question</label>
-                    <h1 className={styles.questionTitle}>{title}</h1>
+                    <h1 className={styles.questionTitle}>{sanitizeHtml(title)}</h1>
                 </div>
                 <div className={styles.bountyArea}>
                     <div className={styles.bounty}>{props.bounty}</div>
-                    <div className={styles.tauBounty}>TAU</div>
+                    <p className={styles.tauBounty}>TAU</p>
                 </div>
-                <div style={{ clear: "both" }}></div>
             </section>
             <section className={styles.questionContent}>
-                {props.content}
+                {sanitizeHtml(props.content)}
             </section>
             {
                 !award &&
