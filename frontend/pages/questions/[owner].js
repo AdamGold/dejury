@@ -12,13 +12,14 @@ export async function getServerSideProps(context) {
     // const data = getPostData(params.id)
     const { owner, title } = context.query
     return {
-        props: await getQuestion(owner, title), // will be passed to the page component as props
+        props: await getQuestion(owner, decodeURIComponent(title)), // will be passed to the page component as props
     }
 }
 
 export default function Question(props) {
     const router = useRouter()
-    const { owner, title, award } = router.query
+    const { owner, award } = router.query
+    const title = decodeURIComponent(router.query.title)
     const [content, setContent] = useState("");
 
 
@@ -26,7 +27,7 @@ export default function Question(props) {
         content = `
 <h1>A new answer has been received for your question!</h1>
 <p>${sanitizeHtml(content)}</p>
-To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&title=${title}">click here.</a>
+To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&title=${encodeURIComponent(title)}">click here.</a>
         `
         try {
             const res = await fetch("/api/email", {

@@ -39,7 +39,7 @@ class CustomApp extends App {
         } else if (!data.resultInfo.title.includes("Pending")) {
             var txInfo = data.txInfo
             if (txInfo.methodName === "post") {
-                this.props.router.push(`/questions/${txInfo['senderVk']}?title=${txInfo["kwargs"]["title"]}`)
+                this.props.router.push(`/questions/${txInfo['senderVk']}?title=${encodeURIComponent(txInfo["kwargs"]["title"])}`)
             } else if (txInfo.methodName === "answer") {
                 alert("Your answer has been submitted. The owner will be notified via email and will have the ability to award you with the bounty.")
             } else if (txInfo.methodName === "award") {
