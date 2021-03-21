@@ -2,11 +2,15 @@ import '../styles/global.css'
 import { Fragment } from 'react'
 import App from 'next/app'
 import dynamic from 'next/dynamic'
+import { withRouter } from 'next/router'
+
+
 const Wallet = dynamic(
     () => import('./wallet'),
     { ssr: false }
 )
-export default class CustomApp extends App {
+
+class CustomApp extends App {
     constructor() {
         super()
         this.state = { walletInfo: null }
@@ -32,7 +36,10 @@ export default class CustomApp extends App {
             console.log(response.resultInfo.errors)
             //Handle Errors
         } else {
-            //Do soemething
+            var txInfo = response.detail.data.txInfo
+            if (txInfo.methodName === "post") {
+                this.props.router.push(`/questions/${txInfo['senderVk']}?title=${txInfo["kwargs"]["title"]}`)
+            }
         }
     }
 
@@ -41,6 +48,7 @@ export default class CustomApp extends App {
         document.addEventListener('lamdenWalletInfo', this.lamdenWalletInfo);
         document.addEventListener('lamdenWalletTxStatus', this.lamdenWalletStatus);
     }
+
     render() {
         const { Component, pageProps } = this.props
         console.log(this.state)
@@ -52,3 +60,5 @@ export default class CustomApp extends App {
         )
     }
 }
+
+export default withRouter(CustomApp)

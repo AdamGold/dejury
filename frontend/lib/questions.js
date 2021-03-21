@@ -1,6 +1,6 @@
-import { NETWORK, CONTRACT_NAME } from "./lamden"
+import { NETWORK, CONTRACT_NAME, API } from "./lamden"
 
-export const postQuestion = async (kwargs) => {
+export const postQuestion = async (kwargs, wallet) => {
     var detail = JSON.stringify({
         contractName: 'currency',
         methodName: 'approve',
@@ -20,7 +20,6 @@ export const postQuestion = async (kwargs) => {
         //mainnet, testnet are the only acceptable values
         networkType: NETWORK,
 
-        contractName: CONTRACT_NAME,
         //The method in your contract to call
         methodName: 'post',
 
@@ -32,15 +31,15 @@ export const postQuestion = async (kwargs) => {
     });
 
     //Send transaction to the wallet
-    document.dispatchEvent(new CustomEvent('lamdenWalletSendTx', { detail, type: "post" }));
-
-
+    document.dispatchEvent(new CustomEvent('lamdenWalletSendTx', { detail }));
 }
 
-export const getQuestion = async (title, content, bounty) => {
+export const getQuestion = async (owner, title) => {
     // get data from blockchain
-    // const res = await api.getVariable(config.devContract, 'questions')
-    // return res
+    const content = await API.getVariable(CONTRACT_NAME, 'posts', owner + ":" + title + ":content")
+    const bounty = await API.getVariable(CONTRACT_NAME, 'posts', owner + ":" + title + ":bounty")
+    const email = await API.getVariable(CONTRACT_NAME, 'posts', owner + ":" + title + ":email")
+    return { content, bounty, email }
 }
 
 export const answerQuestion = async event => {

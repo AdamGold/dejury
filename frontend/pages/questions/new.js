@@ -3,8 +3,9 @@ import { postQuestion } from "../../lib/questions"
 import React from 'react'
 
 export default class NewQuestion extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
+        this.props = props
         this.state = {
             title: "",
             email: "",
@@ -22,7 +23,8 @@ export default class NewQuestion extends React.Component {
 
     handleSubmit = evt => {
         evt.preventDefault();
-        postQuestion(this.state)
+        if (!this.props.walletInfo) return
+        postQuestion(this.state, this.props.walletInfo.wallets[0])
     }
 
     render = () => {
