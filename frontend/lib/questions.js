@@ -1,12 +1,13 @@
 import { NETWORK, CONTRACT_NAME, API } from "./lamden"
 
 export const postQuestion = async (kwargs, wallet) => {
+    kwargs["bounty"] = parseInt(kwargs["bounty"])
     var detail = JSON.stringify({
         contractName: 'currency',
         methodName: 'approve',
         networkType: NETWORK,
         kwargs: {
-            amount: parseInt(kwargs["bounty"]),  // amount of TAU to approve
+            amount: kwargs["bounty"],  // amount of TAU to approve
             to: CONTRACT_NAME // contract to approve
         },
         stampLimit: 40
