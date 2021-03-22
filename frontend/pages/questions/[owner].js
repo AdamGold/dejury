@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Layout from '../../components/layout'
 import { answerQuestion, getQuestion, awardAnswer } from "../../lib/questions"
 import { useRouter } from 'next/router'
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { BASE_PATH } from "../../lib/consts"
 import styles from '../../styles/question.module.css'
 import sanitizeHtml from 'sanitize-html';
