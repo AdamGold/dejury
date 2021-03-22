@@ -38,12 +38,14 @@ class CustomApp extends App {
             alert("An error has occured, please try again.")
         } else if (!data.resultInfo.title.includes("Pending")) {
             var txInfo = data.txInfo
+            var question_link = `/questions/${txInfo['senderVk']}?title=${encodeURIComponent(txInfo["kwargs"]["title"])}`
             if (txInfo.methodName === "post") {
-                this.props.router.push(`/questions/${txInfo['senderVk']}?title=${encodeURIComponent(txInfo["kwargs"]["title"])}`)
+                this.props.router.push(question_link)
             } else if (txInfo.methodName === "answer") {
                 alert("Your answer has been submitted. The owner will be notified via email and will have the ability to award you with the bounty.")
             } else if (txInfo.methodName === "award") {
                 alert("Bounty awarded!")
+                this.props.router.push(question_link)
             }
         }
     }

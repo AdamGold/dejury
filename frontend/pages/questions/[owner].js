@@ -22,6 +22,11 @@ export default function Question(props) {
     const title = decodeURIComponent(router.query.title)
     const [content, setContent] = useState("");
 
+    useEffect(() => {
+        if (award) {
+            awardAnswer(title, award)
+        }
+    });
 
     const sendMail = async (owner, title, content, sender, to) => {
         content = `
@@ -48,10 +53,6 @@ To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&t
         const mailResp = await sendMail(owner, title, content, props.walletInfo.wallets[0], props.email)
         console.log(mailResp)
         answerQuestion(owner, title, content)
-    }
-
-    if (award) {
-        awardAnswer(title, award)
     }
 
     return (
