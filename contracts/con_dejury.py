@@ -57,13 +57,14 @@ def answer(title: str, content: str, owner: str):
 @export
 def award(title: str, winner: str):
     answer = answers[winner, title]
+    bounty = posts[ctx.caller, title, "bounty"]
     assert posts[ctx.caller, title, "content"], "Post not found."
-    assert posts[
-        ctx.caller, title, "bounty"
-    ], "Bounty has already been given for this post."
+    assert bounty, "Bounty has already been given for this post."
     assert answer, "This answer does not exist."
     assert winner != ctx.caller, "You can not award yourself."
-    transfer(from_=ctx.this, to=winner, amount=posts[ctx.caller, title, "bounty"])
+    # approve from contract to winner
+    currency.approve(amount=bounty, to=winner)
+    transfer(from_=ctx.this, to=winner, amount=bounty)
     posts[ctx.caller, title, "bounty"] = 0
 
 

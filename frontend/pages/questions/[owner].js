@@ -50,9 +50,9 @@ To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&t
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
+        answerQuestion(owner, title, content)
         const mailResp = await sendMail(owner, title, content, props.walletInfo.wallets[0], props.email)
         console.log(mailResp)
-        answerQuestion(owner, title, content)
     }
 
     return (

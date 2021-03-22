@@ -35,7 +35,7 @@ class CustomApp extends App {
         console.log(data)
         if (data.resultInfo && data.resultInfo.type === 'error') {
             console.log(data.resultInfo.errorInfo)
-            alert("An error has occured, please try again.")
+            alert("An error has occured, please try again - " + data.resultInfo.errorInfo[0])
         } else if (!data.resultInfo.title.includes("Pending")) {
             var txInfo = data.txInfo
             var question_link = `/questions/${txInfo['senderVk']}?title=${encodeURIComponent(txInfo["kwargs"]["title"])}`
