@@ -63,11 +63,15 @@ def award(title: str, winner: str):
     assert answer, "This answer does not exist."
     assert winner != ctx.caller, "You can not award yourself."
     # approve from contract to winner
-    currency.approve(amount=bounty, to=winner)
-    transfer(from_=ctx.this, to=winner, amount=bounty)
+    # currency.approve(amount=bounty, to=winner)
+    transfer(to=winner, amount=bounty)
     posts[ctx.caller, title, "bounty"] = 0
 
 
-def transfer(from_: str, to: str, amount: int):
+def transfer(to: str, amount: int, from_: str = None):
     # Transfer currency to caller
-    currency.transfer_from(amount, to, from_)
+    if from_:
+        currency.transfer_from(amount, to, from_)
+    else:
+        # transfer from contract
+        currency.transfer(amount, to)

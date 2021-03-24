@@ -45,7 +45,7 @@ class TestContract(unittest.TestCase):
         self.change_signer(self.main_contract.name)
         self.get_contracts()
         self.currency_contract.quick_write("balances", self.main_contract.name, 10000)
-        self.currency_contract.approve(amount=1000, to=self.client.signer)
+        # self.currency_contract.approve(amount=1000, to=self.client.signer)
         self.change_signer("me")
         self.get_contracts()
         self.main_contract.award(title="test", winner="notme")
