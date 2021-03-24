@@ -17,6 +17,13 @@ export async function getServerSideProps(context) {
 }
 
 export default function Question(props) {
+    if (!props.content) {
+        return (
+            <Layout>
+                <h1>Question does not exist.</h1>
+            </Layout>
+        )
+    }
     const router = useRouter()
     const { owner, award } = router.query
     const title = decodeURIComponent(router.query.title)
@@ -29,7 +36,7 @@ export default function Question(props) {
     });
 
     const sendMail = async (owner, title, content, sender, to) => {
-        content = `
+        email_content = `
 <h1>A new answer has been received for your question!</h1>
 <p>${sanitizeHtml(content)}</p>
 To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&title=${encodeURIComponent(title)}">click here.</a>
@@ -40,7 +47,7 @@ To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&t
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ content, to })
+                body: JSON.stringify({ email_content, to })
             })
             return res
         } catch (error) {
@@ -50,9 +57,9 @@ To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&t
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        answerQuestion(owner, title, content)
         const mailResp = await sendMail(owner, title, content, props.walletInfo.wallets[0], props.email)
         console.log(mailResp)
+        answerQuestion(owner, title, content)
     }
 
     return (
