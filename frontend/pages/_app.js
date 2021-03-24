@@ -17,14 +17,8 @@ class CustomApp extends App {
     }
 
     lamdenWalletInfo = (response) => {
-        if ((response.error && response.error.length > 0) || !response.detail) {
-            console.log(response.error)
-            alert("Please connect your wallet.")
-            return
-        }
-        if (response.locked) {
-            alert("Please unlock your Lamden wallet.")
-            return
+        if (response.detail.errors) {
+            alert("Please connect your Lamden wallet.")
         }
         //Get user's account address
         var detail = response.detail
