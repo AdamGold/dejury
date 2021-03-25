@@ -27,7 +27,7 @@ export default function Question(props) {
     const router = useRouter()
     const { owner, award } = router.query
     const title = decodeURIComponent(router.query.title)
-    const [content, setContent] = useState("");
+    const [answer, setAnswer] = useState("");
 
     useEffect(() => {
         if (award) {
@@ -35,10 +35,10 @@ export default function Question(props) {
         }
     });
 
-    const sendMail = async (owner, title, content, sender, to) => {
-        email_content = `
+    const sendMail = async (owner, title, sender, to) => {
+        var email_content = `
 <h1>A new answer has been received for your question!</h1>
-<p>${sanitizeHtml(content)}</p>
+<p>${sanitizeHtml(answer)}</p>
 To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&title=${encodeURIComponent(title)}">click here.</a>
         `
         try {
@@ -57,16 +57,16 @@ To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&t
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        const mailResp = await sendMail(owner, title, content, props.walletInfo.wallets[0], props.email)
+        const mailResp = await sendMail(owner, title, props.walletInfo.wallets[0], props.email)
         console.log(mailResp)
-        answerQuestion(owner, title, content)
+        answerQuestion(owner, title, answer)
     }
 
     return (
         <Layout>
             <NextSeo
                 title={`Dejury - ${sanitizeHtml(title)}`}
-                description={sanitizeHtml(content)}
+                description={sanitizeHtml(props.content)}
             />
             <section className={styles.questionHeader}>
                 <div className={styles.questionTitleArea}>
@@ -88,8 +88,8 @@ To award this answer, <a href="${BASE_PATH}/questions/${owner}?award=${sender}&t
                     <p className={styles.answerDesc}>Your answer will be sent to the post owner via email, with a link to award you the bounty.</p>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <textarea id="content" name="content" type="text" value={content}
-                                onChange={e => setContent(e.target.value)} required />
+                            <textarea id="answer" name="answer" type="text" value={answer}
+                                onChange={e => setAnswer(e.target.value)} required />
                             <i className="bar"></i>
                         </div>
                         <div className="button-container">

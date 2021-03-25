@@ -23,12 +23,12 @@ export default async (req, res) => {
     res.send(mailerRes)
 }
 
-const mailer = ({ content, to }) => {
+const mailer = ({ email_content, to }) => {
     const message = {
         from: "Dejury <noreply@dejury.vercel.app>",
         to: to.trim(),
-        subject: `New answer for your Dejury question`,
-        html: content,
+        subject: "New answer for your Dejury question",
+        html: email_content,
     }
 
     return new Promise((resolve, reject) => {
