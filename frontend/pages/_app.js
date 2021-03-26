@@ -28,9 +28,17 @@ class CustomApp extends App {
     lamdenWalletStatus = (response) => {
         var data = response.detail.data
         console.log(data)
+        const regex_assertion = /AssertionError\('(.+?)',\)/gm;
         if (data.resultInfo && data.resultInfo.type === 'error') {
-            console.log(data.resultInfo.errorInfo)
-            alert("An error has occured, please try again - " + data.resultInfo.errorInfo[0])
+            var errorInfo = data.resultInfo.errorInfo
+            var lastError = errorInfo[errorInfo.length - 1]
+            console.log(errorInfo)
+            if (lastError.includes("AssertionError")) {
+                alert(regex_assertion.exec(lastError)[1])
+            }
+            else if (!lastError.includes("nonce")) {
+                alert(lastError)
+            }
         } else if (!data.resultInfo.title.includes("Pending")) {
             var txInfo = data.txInfo
             var question_link = `/questions/${txInfo['senderVk']}?title=${encodeURIComponent(txInfo["kwargs"]["title"])}`

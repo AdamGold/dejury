@@ -10,11 +10,11 @@ const transporter = nodemailer.createTransport({
 })
 
 export default async (req, res) => {
-    const { content, to } = req.body
-    console.log(to, content)
+    const { email_content, to } = req.body
+    console.log(to, email_content)
 
     // Check if fields are all filled
-    if (content === "" || to === "") {
+    if (email_content === "" || to === "") {
         res.status(403).send("")
         return
     }
