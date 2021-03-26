@@ -28,13 +28,12 @@ class CustomApp extends App {
     lamdenWalletStatus = (response) => {
         var data = response.detail.data
         console.log(data)
-        const regex_assertion = /AssertionError\('(.+?)',\)/gm;
         if (data.resultInfo && data.resultInfo.type === 'error') {
             var errorInfo = data.resultInfo.errorInfo
             var lastError = errorInfo[errorInfo.length - 1]
             console.log(errorInfo)
             if (lastError.includes("AssertionError")) {
-                alert(regex_assertion.exec(lastError)[1])
+                alert(lastError.replace("AssertionError('", "").replace("',)", ""))
             }
             else if (!lastError.includes("nonce")) {
                 alert(lastError)
