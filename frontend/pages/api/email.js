@@ -14,7 +14,7 @@ export default async (req, res) => {
     console.log(to, email_content)
 
     // Check if fields are all filled
-    if (email_content === "" || to === "") {
+    if (!email_content || !to || email_content === "" || to === "") {
         res.status(403).send("")
         return
     }
